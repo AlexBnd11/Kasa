@@ -1,21 +1,28 @@
 import React, { useState } from "react";
+import { useParams, Navigate } from 'react-router-dom';
 import Collapse from "../components/Collapse"
 import ArrowForward from "../assets/arrow-forward.png";
+import Logements from "../assets/logements.json";
 
-export default function Logement(props) {
-    const [currentImage, setCurrentImage] = useState([props.pictures]);
+export default function Logement() {
+    const { id } = useParams();
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const selectedLogement = Logements.find(logement => logement.id === id);
+    if (!selectedLogement) {
+        return <Navigate to="/404" />;
+    }
     const prevHandler = () => {
-        if (currentImage[0]) {
-            setCurrentImage[currentImage.length -1]
+        if (currentImageIndex === 0) {
+            setCurrentImageIndex(currentImageIndex.length - 1)
         } else {
-            setCurrentImage[currentImage - 1]
+            setCurrentImageIndex(currentImageIndex - 1)
         }
     };
     const nextHandler = () => {
-        if (currentImage = currentImage.length -1) {
-            setCurrentImage[0]
+        if (currentImageIndex === currentImageIndex.length - 1) {
+            setCurrentImageIndex(0)
         } else {
-            setCurrentImage[currentImage + 1]
+            setCurrentImageIndex(currentImageIndex + 1)
         }
     };
 
@@ -23,23 +30,27 @@ export default function Logement(props) {
         <main>
 
             <div className="carrousel-container">
-                <figure>{currentImage}</figure>
-                <img src={ArrowForward} className="arrow-backwards" onClick={prevHandler}/>
-                <img src={ArrowForward} className="arrow-forward" onClick={nextHandler}/>
+                <figure>
+                    <img src={selectedLogement.pictures[currentImageIndex]} alt={selectedLogement.title} />
+                </figure>
+                <img src={ArrowForward} className="arrow-backwards" alt="Flèche Précédent" onClick={prevHandler}/>
+                <img src={ArrowForward} className="arrow-forward" alt="Flèche Suivant" onClick={nextHandler}/>
             </div>
             <div className="description--primary">
                 <div className="title-container">
-                    <h1>{props.title}</h1>
-                    <h2>{props.location}</h2>
+                    <h1>{selectedLogement.title}</h1>
+                    <h2>{selectedLogement.location}</h2>
                 </div>
                 <div className="host-container">
-                    <p>{props.hostName}</p>
-                    <img src={props.hostPic} />
+                    <p>{selectedLogement.host.name}</p>
+                    <img src={selectedLogement.host.picture} />
                 </div>
             </div>
             <div className="description--secondary">
                 <div className="tags-container">
-                    <p>{props.tags}</p>
+                    {selectedLogement.tags.map((tag, index) => (
+                        <span key={index}>{tag}</span>
+                    ))}
                 </div>
                 <div className="stars-container">
                     <img />
@@ -52,11 +63,15 @@ export default function Logement(props) {
             <div className="description--tertiary">
                 <Collapse 
                     collapseName="Description"
-                    collapseDescription={props.description}
+                    collapseDescription={selectedLogement.description}
                     />
                 <Collapse 
                     collapseName="Equipements"
-                    collapseDescription={props.equipements}
+                    collapseDescription={selectedLogement.equipements.map((equip, index) => (
+                        <>
+                        {equip} <br key={index} />
+                        </>
+                    ))}
                     />
             </div>
         </main>

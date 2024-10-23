@@ -10,7 +10,7 @@ export default function Accueil() {
             <Card 
                 key={logement.id} 
                 coverUrl={logement.cover}
-                cardLink="" 
+                id={logement.id}
                 title={logement.title}
             />
         ));

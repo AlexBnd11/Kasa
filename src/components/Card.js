@@ -1,13 +1,13 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 export default function Card(props) {
     const cardImg = {backgroundImage: `url(${props.coverUrl})`,};
-    const cardLink = `${props.cardLink}`;
     return (
-        <a href={cardLink}>
+        <Link to={`/logement/${props.id}`}>
             <div className="card" style={cardImg}>
                 <p>{props.title}</p>
             </div>
-        </a>
+        </Link>
     );
 }
