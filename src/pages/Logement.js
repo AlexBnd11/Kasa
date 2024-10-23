@@ -13,13 +13,13 @@ export default function Logement() {
     }
     const prevHandler = () => {
         if (currentImageIndex === 0) {
-            setCurrentImageIndex(currentImageIndex.length - 1)
+            setCurrentImageIndex(selectedLogement.pictures.length - 1)
         } else {
             setCurrentImageIndex(currentImageIndex - 1)
         }
     };
     const nextHandler = () => {
-        if (currentImageIndex === currentImageIndex.length - 1) {
+        if (currentImageIndex === selectedLogement.pictures.length - 1) {
             setCurrentImageIndex(0)
         } else {
             setCurrentImageIndex(currentImageIndex + 1)
@@ -28,22 +28,22 @@ export default function Logement() {
 
     return (
         <main>
-
-            <div className="carrousel-container">
-                <figure>
-                    <img src={selectedLogement.pictures[currentImageIndex]} alt={selectedLogement.title} />
-                </figure>
+            <figure className="carrousel-container">
+                <img src={selectedLogement.pictures[currentImageIndex]} alt={selectedLogement.title} />
                 <img src={ArrowForward} className="arrow-backwards" alt="Flèche Précédent" onClick={prevHandler}/>
                 <img src={ArrowForward} className="arrow-forward" alt="Flèche Suivant" onClick={nextHandler}/>
-            </div>
+            </figure>
             <div className="description--primary">
                 <div className="title-container">
                     <h1>{selectedLogement.title}</h1>
                     <h2>{selectedLogement.location}</h2>
                 </div>
                 <div className="host-container">
-                    <p>{selectedLogement.host.name}</p>
-                    <img src={selectedLogement.host.picture} />
+                    <p>
+                        {selectedLogement.host.name.split(' ')[0]} <br />
+                        {selectedLogement.host.name.split(' ')[1]}
+                    </p>
+                    <img src={selectedLogement.host.picture} alt="" />
                 </div>
             </div>
             <div className="description--secondary">
@@ -67,7 +67,7 @@ export default function Logement() {
                     />
                 <Collapse 
                     collapseName="Equipements"
-                    collapseDescription={selectedLogement.equipements.map((equip, index) => (
+                    collapseDescription={selectedLogement.equipments.map((equip, index) => (
                         <>
                         {equip} <br key={index} />
                         </>
