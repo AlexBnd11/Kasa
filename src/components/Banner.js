@@ -8,7 +8,3 @@ export default function Banner(props) {
         </div>
     );
 }
-
-Banner.defaultProps = {
-    text: "",
-};

@@ -1,77 +1,68 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams, Navigate } from 'react-router-dom';
 import Collapse from "../components/Collapse"
-import ArrowForward from "../assets/arrow-forward.png";
 import Logements from "../assets/logements.json";
+import EmptyStar from "../assets/empty-star.png";
+import FilledStar from "../assets/filled-star.png";
+import Carrousel from "../components/Carrousel";
 
 export default function Logement() {
     const { id } = useParams();
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const selectedLogement = Logements.find(logement => logement.id === id);
-    if (!selectedLogement) {
-        return <Navigate to="/404" />;
-    }
-    const prevHandler = () => {
-        if (currentImageIndex === 0) {
-            setCurrentImageIndex(selectedLogement.pictures.length - 1)
-        } else {
-            setCurrentImageIndex(currentImageIndex - 1)
-        }
-    };
-    const nextHandler = () => {
-        if (currentImageIndex === selectedLogement.pictures.length - 1) {
-            setCurrentImageIndex(0)
-        } else {
-            setCurrentImageIndex(currentImageIndex + 1)
-        }
-    };
+    if (!selectedLogement) {return <Navigate to="/404" />;}
 
     return (
-        <main>
-            <figure className="carrousel-container">
-                <img src={selectedLogement.pictures[currentImageIndex]} alt={selectedLogement.title} />
-                <img src={ArrowForward} className="arrow-backwards" alt="Flèche Précédent" onClick={prevHandler}/>
-                <img src={ArrowForward} className="arrow-forward" alt="Flèche Suivant" onClick={nextHandler}/>
-            </figure>
-            <div className="description--primary">
-                <div className="title-container">
-                    <h1>{selectedLogement.title}</h1>
-                    <h2>{selectedLogement.location}</h2>
+        <main className="description--logement">
+            <Carrousel
+                data={selectedLogement}
+            />
+            <div className="primary-secondary-container">
+                <div className="description--primary">
+                    <div className="title-container">
+                        <h1>{selectedLogement.title}</h1>
+                        <h2>{selectedLogement.location}</h2>
+                    </div>
+                    <div className="tags-container">
+                        {selectedLogement.tags.map((tag, index) => (
+                            <div key={index} className="tag-container">
+                                <span>{tag}</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div className="host-container">
-                    <p>
-                        {selectedLogement.host.name.split(' ')[0]} <br />
-                        {selectedLogement.host.name.split(' ')[1]}
-                    </p>
-                    <img src={selectedLogement.host.picture} alt="" />
-                </div>
-            </div>
-            <div className="description--secondary">
-                <div className="tags-container">
-                    {selectedLogement.tags.map((tag, index) => (
-                        <span key={index}>{tag}</span>
-                    ))}
-                </div>
-                <div className="stars-container">
-                    <img />
-                    <img />
-                    <img />
-                    <img />
-                    <img />
+                <div className="description--secondary">
+                    <div className="host-container">
+                            <p>
+                                {selectedLogement.host.name.split(' ')[0]} <br />
+                                {selectedLogement.host.name.split(' ')[1]}
+                            </p>
+                            <img src={selectedLogement.host.picture} alt="" />
+                        </div>
+                    <div className="stars-container">
+                        {[...Array(5)].map((star, index) => (
+                            <img
+                            key={index}
+                            src={index < selectedLogement.rating ? EmptyStar : FilledStar}
+                            alt={`Étoile ${index + 1}`}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
             <div className="description--tertiary">
                 <Collapse 
                     collapseName="Description"
                     collapseDescription={selectedLogement.description}
+                    isLogement={true}
                     />
                 <Collapse 
                     collapseName="Equipements"
                     collapseDescription={selectedLogement.equipments.map((equip, index) => (
-                        <>
-                        {equip} <br key={index} />
-                        </>
+                        <React.Fragment key={index}>
+                        {equip} <br />
+                        </React.Fragment>
                     ))}
+                    isLogement={true}
                     />
             </div>
         </main>
