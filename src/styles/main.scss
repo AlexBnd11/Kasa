@@ -1,0 +1,305 @@
+$main-color: #FF6060;
+
+body {
+    max-width: 1440px;
+    justify-content: center;
+    margin: 0 auto;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+
+/*** Header ***/
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 0;
+
+    nav {
+        display: flex;
+        gap: 60px;
+
+        .link {
+            font-size: 24px;
+            padding-top: 15px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .active {
+            text-decoration: underline;
+        }
+    }
+}
+
+/*** Banner ***/
+
+.banner-container {
+    height: 223px;
+    border-radius: 25px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    box-shadow: 2px 2px 10px 1px rgba(0,0,0,0.25);
+
+    img {
+        opacity: 0.5;
+    }
+
+    h1 {
+        z-index: 1;
+        font-size: 48px;
+        color: white;
+    }
+}
+
+/*** Cards ***/
+
+.card {
+    height: 360px;
+    width: 360px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-end;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    p {
+        color: white;
+        font-size: 18px;
+        margin: 0;
+        padding: 20px;
+        text-shadow: 2px 2px 2px $main-color;
+
+    }
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 50px;
+    column-gap: 75px;
+    border-radius: 25px;
+    background-color: #F6F6F6;
+    padding-top: 65px;
+    padding-bottom: 50px;
+    margin-bottom: 40px;
+    
+    a {
+        text-decoration: none;
+    }
+}
+
+/*** Barre Collapse ***/
+
+.collapse-container {  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+
+    article {
+        width: 1023px;
+        font-weight: 500;
+        line-height: 1.5;
+    }
+}
+
+.collapse-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1023px;
+    background-color: $main-color;
+    height: 54px;
+    padding: 0 20px;
+    border-radius: 5px;
+
+    h2 {
+        color: white;
+    }
+
+    img {
+        transition: transform 0.4s ease;
+    }
+
+    .rotate-arrow {
+        transform: rotate(180deg);
+    }
+}
+
+.collapse-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.2s ease;
+    opacity: 0;
+
+    &.open {
+        max-height: 300px;
+        opacity: 1;
+    }
+
+    &.closed {
+        max-height: 0;
+        opacity: 0;
+    }
+}
+
+/*** Logement ***/
+
+.carrousel-container {
+    position: relative;
+    width: 1240px;
+    height: 415px;
+    margin: 0 auto;
+  
+    img:first-of-type {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+  
+    @mixin arrow-position($direction, $rotate: 0deg) {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%) rotate($rotate);
+        width: 46px;
+        height: 79px;
+        cursor: pointer;
+        z-index: 10;
+      
+        @if $direction == 'left' {
+            left: 20px;
+            } @else if $direction == 'right' {
+            right: 20px;
+        }
+      }
+
+    .arrow-backwards {
+        @include arrow-position('left', 180deg);
+    }
+    
+    .arrow-forward {
+        @include arrow-position('right');
+    }
+}
+
+.description--primary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1240px;
+    margin: 0 auto;
+
+    h1 {
+        font-size: 36px;
+        font-weight: 500;
+        color: $main-color;
+    }
+
+    h2 {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .host-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        p {
+            text-align: right;
+            font-size: 18px;
+            font-weight: 500;
+            color: $main-color;
+        }
+
+        img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+}
+
+.description--secondary {
+    .tags-container {
+        span {
+            width: 115px;
+            height: 25px;
+            background-color: $main-color;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 10px;
+        }
+    }
+}
+
+/*** Footer ***/
+
+footer {
+    height: 209px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    width: 99vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+    svg {
+        padding: 30px;
+    }
+
+    p {
+        color: white;
+        font-weight: 500;
+        font-size: 24px;
+    }
+}
+
+/*** 404 ***/
+
+.e404 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    @mixin style404($size, $weight){
+        font-size: $size;
+        font-weight: $weight;
+        color: $main-color;
+    }
+
+    h1 {
+        @include style404(288px, 700);
+        margin: 50px 0;
+    }
+
+    p {
+        @include style404(36px, 500);
+    }
+
+    a {
+        color: black;
+        margin: 125px 0;
+        font-size: 18px;
+    }
+}
